@@ -36,4 +36,4 @@ jobs:
       - name: Delete old container
         run: docker rm -f springboot-cicd-docker-container
       - name: Run docker container
-        run: docker run -d -p 8085:8085 --name springboot-cicd-docker-container savishek/springboot-cicd-docker
+        run: docker run -d -p 8085:8085--name springboot-cicd-docker-container savishek/springboot-cicd-docker
