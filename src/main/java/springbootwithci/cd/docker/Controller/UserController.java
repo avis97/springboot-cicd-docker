@@ -17,7 +17,7 @@ public class UserController{
     @PostMapping("add")
     public String addUser(@RequestBody User user){
         userService.addUser(user);
-        return "Your Registration is completed,";
+        return "Your Registration is done";
     }
     @GetMapping("get")
     public List<User> getAllUser(){

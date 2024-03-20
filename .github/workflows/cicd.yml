@@ -24,6 +24,9 @@ jobs:
       - name: Publish image to docker hub
         run: docker push savishek/springboot-cicd-docker:latest
 
+  jobs:
+    runs-on: self-hosted
+
   deploy:
     needs: build
     runs-on: [aws-ec2]
