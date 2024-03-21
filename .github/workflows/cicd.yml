@@ -26,7 +26,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: aws-ec2
+    runs-on: self-hosted  # Specify that this job should run on a self-hosted runner
     steps:
       - name: Pull Image from docker hub
         run: docker pull savishek/springboot-cicd-docker:latest
@@ -34,4 +34,5 @@ jobs:
         run: docker rm -f springboot-cicd-docker-container || true
       - name: Run docker container
         run: docker run -d -p 8085:8085 --name springboot-cicd-docker-container savishek/springboot-cicd-docker
+
 
