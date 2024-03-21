@@ -1,1 +1,38 @@
+name: CICD
+
+on:
+  push:
+    branches: [docker-dev-ec2]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build Project
+        run: mvn clean install -DskipTests
+      - name: Login to docker hub
+        run: docker login -u savishek -p SarkarAvi@1997
+      - name: Build docker image
+        run: docker build -t savishek/springboot-cicd-docker .
+      - name: Publish image to docker hub
+        run: docker push savishek/springboot-cicd-docker:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted  # Specify that this job should run on a self-hosted runner
+    steps:
+      - name: Pull Image from docker hub
+        run: docker pull savishek/springboot-cicd-docker:latest
+      - name: Delete old container
+        run: docker rm -f springboot-cicd-docker-container || true
+      - name: Run docker container
+        run: docker run -d -p 8085:8085 --name springboot-cicd-docker-container savishek/springboot-cicd-docker
+
 

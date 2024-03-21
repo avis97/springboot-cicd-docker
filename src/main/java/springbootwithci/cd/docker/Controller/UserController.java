@@ -16,12 +16,26 @@ public class UserController{
 
     @PostMapping("add")
     public String addUser(@RequestBody User user){
+
         userService.addUser(user);
-        return "Your Registration is completed,";
+        return "Your Registration is done";
     }
     @GetMapping("get")
     public List<User> getAllUser(){
+
         List<User> list=userService.getAllUser();
         return list;
+    }
+    @GetMapping("getbyid/{id}")
+    public User getUserById(@PathVariable("id") int id){
+
+        User user=userService.getUserById(id);
+        return user;
+    }
+    @DeleteMapping("dletebyid/{id}")
+    public String deleteUserByid(@PathVariable("id") int id){
+
+        userService.deleteUser(id);
+        return "This User Delete Successfully!!";
     }
 }
