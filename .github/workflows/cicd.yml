@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout source
         uses: actions/checkout@v3
@@ -24,16 +24,14 @@ jobs:
       - name: Publish image to docker hub
         run: docker push savishek/springboot-cicd-docker:latest
 
-  jobs:
-    runs-on: self-hosted
-
   deploy:
     needs: build
-    runs-on: [aws-ec2]
+    runs-on: aws-ec2
     steps:
       - name: Pull Image from docker hub
         run: docker pull savishek/springboot-cicd-docker:latest
       - name: Delete old container
-        run: docker rm -f springboot-cicd-docker-container
+        run: docker rm -f springboot-cicd-docker-container || true
       - name: Run docker container
-        run: docker run -d -p 8085:8085--name springboot-cicd-docker-container savishek/springboot-cicd-docker
+        run: docker run -d -p 8085:8085 --name springboot-cicd-docker-container savishek/springboot-cicd-docker
+
